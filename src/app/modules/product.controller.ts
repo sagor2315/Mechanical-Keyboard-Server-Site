@@ -91,7 +91,7 @@ const updateSingleProduct = async (req: Request, res: Response) => {
       productId,
       update
     );
-    res.status(500).json({
+    res.status(200).json({
       success: true,
       message: "product updated successfully",
       data: result,
