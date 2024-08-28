@@ -60,6 +60,13 @@ const updateSingleProductFromDB = async (_id: string, updateData: object) => {
   return result;
 };
 
+const updateProductsStockFromDB = async (_id: string, updateData?: object) => {
+  const result = await Product.findByIdAndUpdate(_id, updateData, {
+    new: true,
+  });
+  return result;
+};
+
 const deleteProductFromDB = async (_id: string) => {
   const result = await Product.deleteOne({ _id });
   return result;
@@ -71,4 +78,5 @@ export const productService = {
   getSingleProductFromDB,
   updateSingleProductFromDB,
   deleteProductFromDB,
+  updateProductsStockFromDB,
 };

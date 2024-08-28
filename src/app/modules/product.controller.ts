@@ -106,6 +106,37 @@ const updateSingleProduct = async (req: Request, res: Response) => {
   }
 };
 
+const updateProductsStock = async (req: Request, res: Response) => {
+  const productInfo = req.body;
+
+  try {
+    const updatePromises = productInfo.map(
+      (product: { _id: string; stock: number }) => {
+        const productId = product._id;
+        const updates = {
+          $set: { stock: product.stock },
+        };
+        return productService.updateProductsStockFromDB(productId, updates);
+      }
+    );
+
+    const result = await Promise.all(updatePromises);
+
+    res.status(200).json({
+      success: true,
+      message: "product updated successfully",
+      data: result,
+    });
+  } catch (error) {
+    const err = error as Error;
+    res.status(500).json({
+      success: false,
+      message: "Not Found",
+      error: err.message,
+    });
+  }
+};
+
 const deleteSingleproduct = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
@@ -131,4 +162,5 @@ export const productController = {
   getSinglProduct,
   updateSingleProduct,
   deleteSingleproduct,
+  updateProductsStock,
 };
